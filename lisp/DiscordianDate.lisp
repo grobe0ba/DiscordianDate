@@ -33,95 +33,98 @@
 
 (defvar *DT* (make-datetime))
 
-(defun CURRENT-DT () (multiple-value-bind
-      (second minute hour day month year weekday dst tz)
-		       (get-decoded-time)
-		       (declare (ignore weekday))
-		       (declare (ignore dst))
-		       (declare (ignore tz))
-		       (setf (datetime-hour *DT*) hour)
-		       (setf (datetime-minute *DT*) minute)
-		       (setf (datetime-second *DT*) second)
-		       (setf (datetime-day *DT*) day)
-		       (setf (datetime-month *DT*) month)
-		       (setf (datetime-year *DT*) year)))
+(defun CURRENT-DT ()
+  (multiple-value-bind
+	(second minute hour day month year weekday dst tz)
+      (get-decoded-time)
+    (declare (ignore weekday))
+    (declare (ignore dst))
+    (declare (ignore tz))
+    (setf (datetime-hour *DT*) hour)
+    (setf (datetime-minute *DT*) minute)
+    (setf (datetime-second *DT*) second)
+    (setf (datetime-day *DT*) day)
+    (setf (datetime-month *DT*) month)
+    (setf (datetime-year *DT*) year)))
 
-(defun DISCORDIAN-DATE (dt) (let
-				(
-				 (year (datetime-year dt))
-				 (day (datetime-day dt))
-				 (month (datetime-month dt)))
-			      (setf (datetime-year dt) (+ year 1166))
-			      (cond
-				;; January
-				((= month 1) (setf month 0))
-				;; February
-				((= month 2)
-				 (cond
-				   ((= day 29)
-				    (setf month -1)
-				    (setf day -1))
-				   ((eq t t)
-				    (setf month 0)
-				    (setf day (+ day 31)))))
-				;; March
-				((= month 3)
-				 (setf day (+ day 59))
-				 (cond
-				   ((<= day 73) (setf month 0))
-				   ((eq t t) (setf month 1)
-				    (setf day (- day 73)))))
-				;; April
-				((= month 4)
-				 (setf day (+ day 17))
-				 (setf month 1))
-				;; May
-				((= month 5)
-				 (setf day (+ day 47))
-				 (cond
-				   ((<= day 73)
-				    (setf month 1))
-				   ((eq t t)
-				    (setf day (- day 73))
-				    (setf month 2))))
-				;; June
-				((= month 6)
-				 (setf day (+ day 5))
-				 (setf month 2))
-				;; July
-				((= month 7)
-				 (setf day (+ day 35))
-				 (setf month 2))
-				;; August
-				((= month 8)
-				 (setf day (+ day 66))
-				 (cond
-				   ((<= day 73)
-				    (setf month 2))
-				   ((eq t t)
-				    (setf day (- day 73))
-				    (setf month 3))))
-				;; September
-				((= month 9)
-				 (setf day (+ day 24))
-				 (setf month 3))
-				;; October
-				((= month 10)
-				 (setf day (+ day 54))
-				 (cond
-				   ((<= day 73)
-				    (setf month 3))
-				   ((eq t t)
-				    (setf day (- day 73))
-				    (setf month 4))))
-				;; November
-				((= month 11)
-				 (setf day (+ day 12))
-				 (setf month 4))
-				;; December
-				((= month 12)
-				 (setf day (+ day 42))
-				 (setf month 4)))
-			      (setf (datetime-day dt) day)
-			      (setf (datetime-month dt) month)
-			      ))
+(defun DISCORDIAN-DATE (dt)
+  (declare (datetime dt))
+  (let
+      (
+       (year (datetime-year dt))
+       (day (datetime-day dt))
+       (month (datetime-month dt)))
+    (setf (datetime-year dt) (+ year 1166))
+    (cond
+      ;; January
+      ((= month 1) (setf month 0))
+      ;; February
+      ((= month 2)
+       (cond
+	 ((= day 29)
+	  (setf month -1)
+	  (setf day -1))
+	 ((eq t t)
+	  (setf month 0)
+	  (setf day (+ day 31)))))
+      ;; March
+      ((= month 3)
+       (setf day (+ day 59))
+       (cond
+	 ((<= day 73) (setf month 0))
+	 ((eq t t) (setf month 1)
+	  (setf day (- day 73)))))
+      ;; April
+      ((= month 4)
+       (setf day (+ day 17))
+       (setf month 1))
+      ;; May
+      ((= month 5)
+       (setf day (+ day 47))
+       (cond
+	 ((<= day 73)
+	  (setf month 1))
+	 ((eq t t)
+	  (setf day (- day 73))
+	  (setf month 2))))
+      ;; June
+      ((= month 6)
+       (setf day (+ day 5))
+       (setf month 2))
+      ;; July
+      ((= month 7)
+       (setf day (+ day 35))
+       (setf month 2))
+      ;; August
+      ((= month 8)
+       (setf day (+ day 66))
+       (cond
+	 ((<= day 73)
+	  (setf month 2))
+	 ((eq t t)
+	  (setf day (- day 73))
+	  (setf month 3))))
+      ;; September
+      ((= month 9)
+       (setf day (+ day 24))
+       (setf month 3))
+      ;; October
+      ((= month 10)
+       (setf day (+ day 54))
+       (cond
+	 ((<= day 73)
+	  (setf month 3))
+	 ((eq t t)
+	  (setf day (- day 73))
+	  (setf month 4))))
+      ;; November
+      ((= month 11)
+       (setf day (+ day 12))
+       (setf month 4))
+      ;; December
+      ((= month 12)
+       (setf day (+ day 42))
+       (setf month 4)))
+    (setf (datetime-day dt) day)
+    (setf (datetime-month dt) month)
+    ))
