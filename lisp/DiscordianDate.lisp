@@ -1,5 +1,6 @@
 (defpackage :discord
-  (:export "DISCORDIAN-DATE" "DATETIME" "CURRENT-DT" "*DT*")
+  (:export "DISCORDIAN-DATE" "DATETIME" "CURRENT-DT" "*DT*" "MAKE-DATETIME"
+	   "PRINT-DISCORDIAN-DATE")
   (:intern "*DAY-NAMES*" "*MONTH-NAMES*" "*SHORT-MONTH-NAMES*")
   (:documentation "Generates a Discordian date from a Gregorian Date"))
 
@@ -47,14 +48,15 @@
     (setf (datetime-month *DT*) month)
     (setf (datetime-year *DT*) year)))
 
-(defun DISCORDIAN-DATE (dt)
-  (declare (datetime dt))
+(defun DISCORDIAN-DATE (from to)
+  (declare (datetime from))
+  (declare (datetime to))
   (let
       (
-       (year (datetime-year dt))
-       (day (datetime-day dt))
-       (month (datetime-month dt)))
-    (setf (datetime-year dt) (+ year 1166))
+       (year (datetime-year from))
+       (day (datetime-day from))
+       (month (datetime-month from)))
+    (setf (datetime-year to) (+ year 1166))
     (cond
       ;; January
       ((= month 1) (setf month 0))
@@ -125,6 +127,41 @@
       ((= month 12)
        (setf day (+ day 42))
        (setf month 4)))
-    (setf (datetime-day dt) day)
-    (setf (datetime-month dt) month)
+    (setf (datetime-day to) day)
+    (setf (datetime-month to) month)
     ))
+
+(defun print-discordian-date (from to)
+  (declare (datetime from))
+  (declare (datetime to))
+  (let
+      (
+       (from-year (datetime-year from))
+       (from-day (datetime-day from))
+       (from-month (datetime-month from))
+       (to-year (datetime-year to))
+       (to-day (datetime-day to))
+       (to-month (datetime-month to))
+       (day-name nil)
+       (month-name nil)
+       (short-month-name nil)
+       (offset 1))
+    (cond
+      ((= to-month 1)
+       (cond ((> to-day 16) (setf offset (- 0 2))) ((eq t t) (setf offset 3))))
+      ((= to-month 2) (setf offset 0))
+      ((= to-month 3) (setf offset 2))
+      ((= to-month 4) (setf offset (- 0 1))))
+    (setf day-name
+	  (nth (mod (- to-day offset) (length *DAY-NAMES*)) *DAY-NAMES*))
+    (setf month-name
+	   (nth (mod to-month (length *MONTH-NAMES*)) *MONTH-NAMES*))
+    (setf short-month-name
+	  (nth (mod to-month (length *SHORT-MONTH-NAMES*)) *SHORT-MONTH-NAMES*))
+    (format nil "~D-~D-~D->~D-~D-~D:~T~A, ~A ~D in the YOLD ~D~T~D~A~D"
+	    from-year from-month from-day
+	    to-year to-month to-day
+	    day-name month-name
+	    to-day to-year
+	    to-day short-month-name
+	    to-year)))
