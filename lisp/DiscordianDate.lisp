@@ -1,12 +1,13 @@
 (defpackage :discord
+  (:use :common-lisp)
   (:export "DISCORDIAN-DATE" "DATETIME" "CURRENT-DT" "*DT*" "MAKE-DATETIME"
 	   "PRINT-DISCORDIAN-DATE")
-  (:intern "*DAY-NAMES*" "*MONTH-NAMES*" "*SHORT-MONTH-NAMES*")
+  (:intern "+DAY-NAMES+" "*MONTH-NAMES*" "*SHORT-MONTH-NAMES*")
   (:documentation "Generates a Discordian date from a Gregorian Date"))
 
 (in-package :discord)
 
-(defconstant *DAY-NAMES* '(
+(defconstant +DAY-NAMES+ '(
 			   "Sweetmorn"
 			   "Boomtime"
 			   "Pungenday"
@@ -14,7 +15,7 @@
 			   "Setting Orange"
 			   ))
 
-(defconstant *MONTH-NAMES* '(
+(defconstant +MONTH-NAMES+ '(
 			     "Chaos"
 			     "Discord"
 			     "Confusion"
@@ -22,7 +23,7 @@
 			     "The Aftermath"
 			     ))
 
-(defconstant *SHORT-MONTH-NAMES* '(
+(defconstant +SHORT-MONTH-NAMES+ '(
 				   "Ch"
 				   "Dsc"
 				   "Cfn"
@@ -153,11 +154,11 @@
       ((= to-month 3) (setf offset 2))
       ((= to-month 4) (setf offset (- 0 1))))
     (setf day-name
-	  (nth (mod (- to-day offset) (length *DAY-NAMES*)) *DAY-NAMES*))
+	  (nth (mod (- to-day offset) (length +DAY-NAMES+)) +DAY-NAMES+))
     (setf month-name
-	   (nth (mod to-month (length *MONTH-NAMES*)) *MONTH-NAMES*))
+	   (nth (mod to-month (length +MONTH-NAMES+)) +MONTH-NAMES+))
     (setf short-month-name
-	  (nth (mod to-month (length *SHORT-MONTH-NAMES*)) *SHORT-MONTH-NAMES*))
+	  (nth (mod to-month (length +SHORT-MONTH-NAMES+)) +SHORT-MONTH-NAMES+))
     (format nil "~D-~D-~D->~D-~D-~D:~T~A, ~A ~D in the YOLD ~D~T~D~A~D"
 	    from-year from-month from-day
 	    to-year to-month to-day
