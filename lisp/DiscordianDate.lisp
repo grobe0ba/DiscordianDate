@@ -166,3 +166,10 @@
 	    to-day to-year
 	    to-day short-month-name
 	    to-year)))
+
+(defun toplevel (&rest args)
+  (declare (ignore args))
+  (let ((ddate (make-datetime)))
+    (current-dt)
+    (discordian-date *dt* ddate)
+    (format t "~A~%" (print-discordian-date *dt* ddate))))
