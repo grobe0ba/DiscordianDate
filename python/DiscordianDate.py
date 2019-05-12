@@ -5,7 +5,7 @@ Created on Sun Jan 28 19:12:04 2018
 
 @author: grobe0ba
 
-$Id: DiscordianDate.py,v 1.4 2018/02/18 20:54:31 grobe0ba Exp $
+$Id: DiscordianDate.py,v 1.5 2019/02/16 17:20:15 grobe0ba Exp $
 """
 
 from argparse import ArgumentParser
@@ -48,7 +48,7 @@ class DiscordianDate:
                 self.dmonthOfYear = 1
         elif self.dt.month == 4:
             # April
-            self.ddayOfMonth += 16
+            self.ddayOfMonth += 17
             self.dmonthOfYear = 1
         elif self.dt.month == 5:
             # May

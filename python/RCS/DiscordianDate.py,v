@@ -1,9 +1,14 @@
-head	1.4;
+head	1.5;
 access;
 symbols;
 locks; strict;
 comment	@# @;
 
+
+1.5
+date	2019.02.16.17.20.15;	author grobe0ba;	state Exp;
+branches;
+next	1.4;
 
 1.4
 date	2018.02.18.20.54.31;	author grobe0ba;	state Exp;
@@ -31,9 +36,9 @@ desc
 @
 
 
-1.4
+1.5
 log
-@Moved ddate.py into DiscordianDate.py, and allowed for proper argument processing
+@Fixed incorrect addition
 @
 text
 @#!/usr/bin/env python3
@@ -43,7 +48,7 @@ Created on Sun Jan 28 19:12:04 2018
 
 @@author: grobe0ba
 
-$Id: DiscordianDate.py,v 1.3 2018/02/18 20:44:58 grobe0ba Exp grobe0ba $
+$Id: DiscordianDate.py,v 1.4 2018/02/18 20:54:31 grobe0ba Exp grobe0ba $
 """
 
 from argparse import ArgumentParser
@@ -86,7 +91,7 @@ class DiscordianDate:
                 self.dmonthOfYear = 1
         elif self.dt.month == 4:
             # April
-            self.ddayOfMonth += 16
+            self.ddayOfMonth += 17
             self.dmonthOfYear = 1
         elif self.dt.month == 5:
             # May
@@ -191,6 +196,20 @@ if __name__ == '__main__':
     dt = date(year, month, day)
     dg = DiscordianDate(dt)
     print(dg)
+@
+
+
+1.4
+log
+@Moved ddate.py into DiscordianDate.py, and allowed for proper argument processing
+@
+text
+@d8 1
+a8 1
+$Id: DiscordianDate.py,v 1.3 2018/02/18 20:44:58 grobe0ba Exp grobe0ba $
+d51 1
+a51 1
+            self.ddayOfMonth += 16
 @
 
 
