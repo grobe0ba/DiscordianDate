@@ -15,7 +15,7 @@ LD = libtool --mode=link gcc $(LDFLAGS)
 
 .PHONY: all install clean
 
-all: $(LIBRARIES:=.la) $(PROGRAMS)
+all: $(LIBRARIES:=.la) $(PROGRAMS) DiscordianDate.jar
 
 depfiles = $($(LIBRARIES)_OBJS:.lo=.d) $($(PROGRAMS)_OBJS:.lo=.d)
 libmkfiles = $(LIBRARIES:=.mk)
@@ -44,6 +44,9 @@ $(promkfiles):
 	cython --embed-positions --line-directives --embed -3 \
                 --capi-reexport-cincludes $<
 
+DiscordianDate.jar: DiscordianDate.py __main__.py
+	jar cvf $@ __main__.py DiscordianDate.py
+
 install: $(PROGRAMS) $(LIBRARIES:=.la)
 	install -d -m755 $(PREFIX)/bin
 	install -d -m755 $(PREFIX)/lib
@@ -61,5 +64,6 @@ clean:
 	libtool --mode=clean rm -rf $($(PROGRAMS)_OBJS)
 	libtool --mode=clean rm -rf $($(PROGRAMS)_OBJS:.lo=.o)
 	libtool --mode=clean rm -rf $(PROGRAMS)
+	rm DiscordianDate.jar
 
 

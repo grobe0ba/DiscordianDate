@@ -126,9 +126,8 @@ class DiscordianDate:
                 shortMonthName,
                 self.dyear)
 
-
-if __name__ == '__main__':
-    optionParser = ArgumentParser()
+def main():
+    optionParser= ArgumentParser()
     optionParser.add_argument("-y", "--year", dest="year", default=None,
                               help="Year")
     optionParser.add_argument("-m", "--month", dest="month", default=None,
@@ -136,13 +135,13 @@ if __name__ == '__main__':
     optionParser.add_argument("-d", "--day", dest="day", default=None,
                               help="Day of month")
     options = optionParser.parse_args()
-
+    
     dt = date.today()
-
+    
     year = dt.year
     month = dt.month
     day = dt.day
-
+    
     if options.year is not None:
         year = int(options.year)
     if options.month is not None:
@@ -153,3 +152,6 @@ if __name__ == '__main__':
     dt = date(year, month, day)
     dg = DiscordianDate(dt)
     print(dg)
+
+if __name__ == '__main__':
+    main()
